@@ -9,7 +9,7 @@ class AwsOidcAuth implements Serializable {
     }
 
     def withRole(String roleArn, String region = 'eu-west-1', Closure body) {
-        script.withCredentials([script.oidcTokenFile(credentialsId: 'jenkins-oidc', variable: 'OIDC_TOKEN_FILE')]) {
+        script.withCredentials([script.idTokenFile(credentialsId: 'jenkins-oidc', variable: 'OIDC_TOKEN_FILE')]) {
             def creds = script.sh(
                 script: """
                     aws sts assume-role-with-web-identity \\
