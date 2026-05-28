@@ -10,7 +10,7 @@ def call(Map config = [:]) {
             sh 'terraform init -input=false'
             sh "terraform workspace select ${workspace} || terraform workspace new ${workspace}"
             sh 'terraform validate'
-            sh 'terraform plan -out=tfplan -input=false'
+            sh 'terraform plan -out=tfplan -input=false -no-color -compact-warnings'
             stash name: 'tfplan', includes: 'tfplan'
         }
     }

@@ -5,7 +5,7 @@ def call(Map config = [:]) {
     withAwsOidc(roleArn: roleArn) {
         dir(tfDir) {
             unstash 'tfplan'
-            sh 'terraform apply -input=false tfplan'
+            sh 'terraform apply -input=false -no-color tfplan'
         }
     }
 }
