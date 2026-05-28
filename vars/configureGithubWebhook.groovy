@@ -3,7 +3,7 @@ def call(Map config = [:]) {
     String jenkinsUrl    = config.get('jenkinsUrl', env.JENKINS_URL)
 
     withCredentials([string(credentialsId: credentialsId, variable: 'GITHUB_TOKEN')]) {
-        String repoPath   = env.GIT_URL.replaceAll(/.*github\.com[:/]/, '').replaceAll(/\.git$/, '')
+        String repoPath   = env.GIT_URL.replaceAll('.*github\.com[:/]', '').replaceAll('\.git$', '')
         String webhookUrl = "${jenkinsUrl.replaceAll('/+$', '')}/github-webhook/"
 
         def hooks = sh(
