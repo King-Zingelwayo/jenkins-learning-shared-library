@@ -1,11 +1,13 @@
 def call(Map config = [:]) {
     String credentialsId = config.get('credentialsId', 'github-token')
-    String jenkinsUrl    = config.get('jenkinsUrl', env.JENKINS_URL)
+    String jenkinsUrl    = config.get('jenkinsUrl', env.JENKINS_URL ?: 'http://localhost:8080')
 
     withCredentials([string(credentialsId: credentialsId, variable: 'GITHUB_TOKEN')]) {
-        String gitUrl    = env.GIT_URL.replace('https://github.com/', '').replace('git@github.com:', '').replace('.git', '')
-        String repoPath  = gitUrl
-        String webhookUrl = "${jenkinsUrl.replaceAll('/+$', '')}/github-webhook/"
+        String repoPath   = env.GIT_URL
+                                .replace('https://github.com/', '')
+                                .replace('git@github.com:', '')
+                                .replace('.git', '')
+        String webhookUrl = jenkinsUrl.replaceAll('/+$', '') + '/github-webhook/'
 
         def hooks = sh(
             script: """
